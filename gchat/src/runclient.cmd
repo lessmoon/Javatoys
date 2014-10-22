@@ -1,2 +1,4 @@
-java lessmoon.gchat.client.Client
+echo OFF
+cls
+java lessmoon.gchat.main.Main
 pause

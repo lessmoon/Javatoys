@@ -21,31 +21,36 @@ public class Server {
         BufferedReader      inFromClient;
         DataOutputStream    outToClient;
         String              id;
-        //static public final int TIMEOUT = 100;
 
         public MsgGetter(Socket c,DataOutputStream otc)  throws IOException {
             con = c;
-            inFromClient = new BufferedReader(new InputStreamReader(con.getInputStream())); 
+            inFromClient = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8")); 
             outToClient  = otc;
+        }
+
+        Message getMsg() throws IOException {
+            String nid   = inFromClient.readLine();
+            String date = inFromClient.readLine();/*Ignore message*/
+            String content = inFromClient.readLine();
+            return new Message(nid,content);/*repack the message*/
         }
 
         public void run() {
             try{
-                id = inFromClient.readLine(); /*The client send his name first*/
-                String sentence = null;
-                sendMsg(new Message("System:Welcome!Here is our new friend " + id + "!"));
+                Message msg = getMsg();
+                id = msg.srcid;
+                sendMsg(new Message("System","Welcome to our new friend " + id + "."));
                 while(true){
-                    sendMsg( new Message(id + "@" + (new SimpleDateFormat("hh:mm:ss")).format(new Date()) +  " Said: "  + inFromClient.readLine()) );
+                    sendMsg(getMsg());
                 }
-            } catch(IOException e){
+            } catch(Exception e){
                 System.out.println("Connection over");
             } finally {
-                /* Not thread safe*/
                 synchronized (ospool){
                     ospool.remove(outToClient);
                 }
                 try {
-                    sendMsg( new Message(id + "@" + (new SimpleDateFormat("hh:mm:ss")).format(new Date()) +  " quit chatroom." ));
+                    sendMsg( new Message("System",id + " quit chatroom." ));
                 } catch(IOException e){
                     System.out.print(e);
                 }
@@ -67,7 +72,7 @@ public class Server {
     public void sendMsg(Message msg) throws IOException{
         synchronized (ospool){
             for(DataOutputStream os : ospool){
-                os.writeBytes(msg.toString() + "\n");
+                os.write(msg.toString().getBytes("UTF-8"));
             }
         }
     }
