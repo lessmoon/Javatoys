@@ -94,6 +94,7 @@ public class Maze extends JFrame {
             public void paint(Graphics g){
                 synchronized(this){
                     super.paint(g);
+                    g.translate(TILE_WIDTH/2,TILE_WIDTH/2);
                     g.setColor(Color.BLUE);
                     int x = 0;
                     synchronized(map){
@@ -122,7 +123,7 @@ public class Maze extends JFrame {
                     /*Draw the destnation!*/
 
                     g.setColor(Color.RED);
-                    g.fillRect(dest.X* TILE_WIDTH + 1,dest.Y* TILE_WIDTH + 1,TILE_WIDTH - 1,TILE_WIDTH - 1);
+                    g.fillRect(dest.X * TILE_WIDTH + 1,dest.Y * TILE_WIDTH + 1,TILE_WIDTH - 1,TILE_WIDTH - 1);
                     
                     /*Draw the tip!!!*/
                     
@@ -132,7 +133,6 @@ public class Maze extends JFrame {
                         tip = null;
                     }
 
-                    
                     /*Draw the little man!*/
                     
                     g.setColor(Color.GREEN);
@@ -140,7 +140,7 @@ public class Maze extends JFrame {
                 }
             }
         };
-        jp.setPreferredSize(new Dimension(MAP_WIDTH * TILE_WIDTH + 1,MAP_HEIGHT * TILE_WIDTH + 1));
+        jp.setPreferredSize(new Dimension(MAP_WIDTH * TILE_WIDTH + 1 + TILE_WIDTH,MAP_HEIGHT * TILE_WIDTH + 1 + TILE_WIDTH));
         JPanel fbar = new JPanel(new BorderLayout());
         timedisplay = new JLabel("<HTML><font size=\"5\" face=\"arial\" color=\"red\">Welcome!</font></HTML>",JLabel.CENTER);
         fbar.add(timedisplay,BorderLayout.NORTH);

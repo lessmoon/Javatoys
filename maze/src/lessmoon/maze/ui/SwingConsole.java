@@ -11,8 +11,8 @@ public class SwingConsole {
             public void run() {
                 f.setTitle(f.getClass().getSimpleName());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.pack();
                 f.setResizable(false);
+                f.pack();
                 f.setVisible(true);
                 f.setLocationRelativeTo(null);
             }
