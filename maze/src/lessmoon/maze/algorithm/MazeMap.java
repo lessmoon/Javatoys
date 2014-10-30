@@ -98,13 +98,22 @@ public class MazeMap
 			default:// HERE:
 				return false;
 		}
-}
+    }
+    
+    public void Reset(){
+        for(int i = 0;i< this.W;i++){
+            for(int j = 0;j < this.H;j++){
+                Map[i][j].SouthIsLinked = false;
+                Map[i][j].EastIsLinked  = false;
+            }
+        }
+    }
+    
 	/**
 	 * Auotomatically generate a maze
 	 * Anyway,if the size of Maze if too big (more than 100*100),it will be somewhat slow
 	 */
     public void GenerateMaze(){
-            C.Clear();
             for(int i = 0;i< this.W;i++)
                 for(int j = 0;j < this.H;j++){
                     C.Insert(new _2DVector(i,j));
@@ -142,6 +151,7 @@ public class MazeMap
                 }
             }
             //[1]
+            C.Clear();
         }
 
     /**
