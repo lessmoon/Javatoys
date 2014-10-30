@@ -15,7 +15,7 @@ public class Server {
     public Server() throws IOException {
         ss = new ServerSocket(PORT);
     }
-    
+
     class MsgGetter implements Runnable {
         Socket              con;
         BufferedReader      inFromClient;
@@ -64,7 +64,9 @@ public class Server {
             System.out.println("Wait connecting...");
             Socket con = ss.accept();
             System.out.println("Connected ok!");
-            ospool.add(dos = new DataOutputStream(con.getOutputStream()));
+            synchronized (ospool){
+                ospool.add(dos = new DataOutputStream(con.getOutputStream()));
+            }
             new Thread(new MsgGetter(con,dos)).start();
         }
     }
