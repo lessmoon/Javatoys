@@ -1,0 +1,9 @@
+package lessmoon.maze.main.Main;
+
+import java.util.*;
+
+import lessmoon.maze.ui.*;
+
+public class Main{
+    
+}
